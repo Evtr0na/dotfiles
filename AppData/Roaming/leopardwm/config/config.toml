@@ -1,0 +1,161 @@
+[layout]
+gap = 3
+outer_gap_left = 3
+outer_gap_right = 3
+outer_gap_top = 3
+outer_gap_bottom = 3
+centering_mode = "center"
+center_past_edges = false
+width_presets = [
+    0.333,
+    0.555,
+    0.888,
+]
+default_width_preset = 1
+height_presets = [
+    0.333,
+    0.5,
+    1.0,
+]
+
+[appearance]
+active_border = true
+active_border_color = "0558FF"
+active_border_width = 2
+active_border_position = "outside"
+tab_strip_height = 30
+tab_strip_bg = "1F1F1F"
+tab_strip_active_bg = "303030"
+tab_strip_active_text = "FFFFFF"
+tab_strip_inactive_text = "A0A0A0"
+tab_strip_opacity = 230
+
+[behavior]
+focus_new_windows = true
+track_focus_changes = true
+log_level = "info"
+focus_follows_mouse = false
+focus_follows_mouse_delay_ms = 0
+disable_snap_layouts = true
+check_for_updates = true
+tab_close_action = "close_window"
+swap_chain_ghost_animation = true
+new_window_placement = "new_column"
+hide_offscreen_taskbar_buttons = true
+workspace_edge_wrap = false
+mouse_follows_focus = false
+fullscreen_follows_focus = true
+
+[hotkeys]
+scroll_modifier = "Ctrl+Alt"
+disabled = []
+"Ctrl+Alt+Shift+H" = "move_column_left"
+"Ctrl+Alt+Shift+R" = "reload"
+"Ctrl+Alt+Shift+-" = "cycle_height_down"
+"Ctrl+Alt+Shift+9" = "move_to_workspace_9"
+"Ctrl+Alt+Shift+S" = "scratchpad_stash"
+"Ctrl+Alt+[" = "move_window_left"
+"Ctrl+Alt+C" = "center_column"
+"Win+Ctrl+Escape" = "panic_revert"
+"Ctrl+Alt+End" = "focus_end"
+"Ctrl+Alt+P" = "toggle_pause"
+"Alt+Shift+5" = "switch_workspace_5"
+"Ctrl+Alt+L" = "focus_right"
+"Ctrl+Alt+Shift+=" = "cycle_height_up"
+"Ctrl+Alt+Shift+Left" = "workspace_prev"
+"Ctrl+Alt+Win+-" = "cycle_width_down"
+"Ctrl+Alt+Win+Down" = "focus_monitor_down"
+"Alt+Shift+6" = "switch_workspace_6"
+"Ctrl+Alt+Shift+F" = "toggle_fullscreen"
+"Ctrl+Alt+Shift+5" = "move_to_workspace_5"
+"Ctrl+Alt+Win+," = "focus_monitor_left"
+"Ctrl+Alt+Shift+8" = "move_to_workspace_8"
+"Ctrl+Alt+Shift+2" = "move_to_workspace_2"
+"Ctrl+Alt+Shift+PageUp" = "move_to_workspace_prev"
+"Ctrl+Alt+." = "consume_from_right"
+"Ctrl+Alt+Shift+PageDown" = "move_to_workspace_next"
+"Ctrl+Alt+Shift+L" = "move_column_right"
+"Ctrl+Alt+Win+Shift+," = "move_to_monitor_left"
+"Ctrl+Alt+Win+=" = "cycle_width_up"
+"Ctrl+Alt+S" = "scratchpad_toggle"
+"Ctrl+Alt+Win+Shift+." = "move_to_monitor_right"
+"Ctrl+Alt+Shift+Right" = "workspace_next"
+"Ctrl+Alt+Shift+K" = "move_window_up"
+"Ctrl+Alt+Shift+End" = "move_column_to_end"
+"Ctrl+Alt+Y" = "toggle_sticky"
+"Ctrl+Alt+Win+Shift+Down" = "move_to_monitor_down"
+"Alt+Shift+3" = "switch_workspace_3"
+"Alt+Shift+1" = "switch_workspace_1"
+"Ctrl+Alt+Shift+6" = "move_to_workspace_6"
+"Ctrl+Alt+Space" = "toggle_overview"
+"Ctrl+Alt+J" = "focus_down"
+"Ctrl+Alt+Home" = "focus_start"
+"Ctrl+Alt+0" = "equalize_widths"
+"Alt+Shift+2" = "switch_workspace_2"
+"Ctrl+Alt+W" = "close_window"
+"Alt+Shift+9" = "switch_workspace_9"
+"Ctrl+Alt+F" = "toggle_floating"
+"Alt+Shift+4" = "switch_workspace_4"
+"Ctrl+Alt+Shift+1" = "move_to_workspace_1"
+"Ctrl+Alt+]" = "move_window_right"
+"Ctrl+Alt+Shift+[" = "expel_to_left"
+"Alt+Shift+7" = "switch_workspace_7"
+"Ctrl+Alt+," = "consume_from_left"
+"Ctrl+Alt+Shift+3" = "move_to_workspace_3"
+"Ctrl+Alt+M" = "maximize_column"
+"Ctrl+Alt+H" = "focus_left"
+"Ctrl+Alt+R" = "refresh"
+"Ctrl+Alt+K" = "focus_up"
+"Ctrl+Alt+Shift+7" = "move_to_workspace_7"
+"Ctrl+Alt+Win+Up" = "focus_monitor_up"
+"Ctrl+Alt+Shift+J" = "move_window_down"
+"Ctrl+Alt+Win+." = "focus_monitor_right"
+"Ctrl+Alt+Shift+4" = "move_to_workspace_4"
+"Ctrl+Alt+Shift+0" = "equalize_heights"
+"Ctrl+Alt+Shift+Home" = "move_column_to_start"
+"Ctrl+Alt+Shift+]" = "expel_to_right"
+"Ctrl+Alt+T" = "toggle_tabbed"
+"Ctrl+Alt+Win+Shift+Up" = "move_to_monitor_up"
+"Alt+Shift+8" = "switch_workspace_8"
+
+[[window_rules]]
+match_class = "MozillaDialogClass"
+action = "tile"
+corner_style = "square"
+open_maximized = false
+sticky = false
+
+[[window_rules]]
+match_class = "^Qt51514QWindowIcon$"
+match_title = "^Weixin$"
+action = "ignore"
+open_maximized = false
+sticky = false
+
+[gestures]
+enabled = true
+swipe_left = "focus_left"
+swipe_right = "focus_right"
+swipe_up = "focus_up"
+swipe_down = "focus_down"
+scroll_up = "focus_next"
+scroll_down = "focus_prev"
+
+[snap_hints]
+enabled = true
+duration_ms = 50
+opacity = 201
+
+[animation]
+layout_duration_ms = 0
+workspace_switch_duration_ms = 0
+scroll_duration_ms = 0
+overview_duration_ms = 0
+easing = "ease_out"
+reduce_motion_on_battery = false
+
+[workspaces]
+names = []
+
+[overview]
+render = "live"
