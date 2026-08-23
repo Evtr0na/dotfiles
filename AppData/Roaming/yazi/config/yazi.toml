@@ -44,7 +44,7 @@ edit = [
 
 	#打开一个新的wezterm
 	# { run = "nvim %s",          desc = "nvim",         for = "windows", block = true },
-	# { run = "neovide %s",          desc = "neovide",         for = "windows", orphan = true },
+	{ run = "neovide %s",          desc = "neovide",         for = "windows", orphan = true },
 	# { run = "${EDITOR:-vi} %s", desc = "$EDITOR",      for = "unix", block = true },
 	{ run = "code %s",          desc = "code",         for = "windows", orphan = true },
 	{ run = "code -w %s",       desc = "code (block)", for = "windows", block = true },
