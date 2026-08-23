@@ -1,5 +1,5 @@
 {
-  "saved_at": "1787419337",
+  "saved_at": "1787458723",
   "workspaces": [
     {
       "monitor_device_name": "\\\\.\\DISPLAY1",
@@ -9,67 +9,7 @@
           {
             "width": 1272,
             "windows": [
-              396246
-            ],
-            "height_weights": [
-              1.0
-            ],
-            "mode": {
-              "type": "vertical"
-            }
-          },
-          {
-            "width": 1272,
-            "windows": [
-              2099810
-            ],
-            "height_weights": [
-              1.0
-            ],
-            "mode": {
-              "type": "vertical"
-            }
-          },
-          {
-            "width": 1272,
-            "windows": [
-              1576038
-            ],
-            "height_weights": [
-              1.0
-            ],
-            "mode": {
-              "type": "vertical"
-            }
-          },
-          {
-            "width": 1272,
-            "windows": [
-              9637158
-            ],
-            "height_weights": [
-              1.0
-            ],
-            "mode": {
-              "type": "vertical"
-            }
-          },
-          {
-            "width": 1272,
-            "windows": [
-              592968
-            ],
-            "height_weights": [
-              1.0
-            ],
-            "mode": {
-              "type": "vertical"
-            }
-          },
-          {
-            "width": 1272,
-            "windows": [
-              787772
+              67224
             ],
             "height_weights": [
               1.0
@@ -81,7 +21,7 @@
           {
             "width": 2123,
             "windows": [
-              36178416
+              263012
             ],
             "height_weights": [
               1.0
@@ -89,32 +29,47 @@
             "mode": {
               "type": "vertical"
             }
-          }
-        ],
-        "focused_column": 3,
-        "focused_window_in_column": 0,
-        "scroll_offset": 2552.0,
-        "gap": 5,
-        "outer_gap_left": 5,
-        "outer_gap_right": 5,
-        "outer_gap_top": 5,
-        "outer_gap_bottom": 5,
-        "default_column_width": 1272,
-        "centering_mode": "Center",
-        "floating_windows": [],
-        "fullscreen_window": null,
-        "minimized_windows": []
-      }
-    },
-    {
-      "monitor_device_name": "\\\\.\\DISPLAY1",
-      "workspace_index": 1,
-      "workspace": {
-        "columns": [
+          },
           {
             "width": 1272,
             "windows": [
-              16187530
+              1181500
+            ],
+            "height_weights": [
+              1.0
+            ],
+            "mode": {
+              "type": "vertical"
+            }
+          },
+          {
+            "width": 1272,
+            "windows": [
+              67584
+            ],
+            "height_weights": [
+              1.0
+            ],
+            "mode": {
+              "type": "vertical"
+            }
+          },
+          {
+            "width": 2123,
+            "windows": [
+              67234
+            ],
+            "height_weights": [
+              1.0
+            ],
+            "mode": {
+              "type": "vertical"
+            }
+          },
+          {
+            "width": 1272,
+            "windows": [
+              132644
             ],
             "height_weights": [
               1.0
@@ -124,9 +79,9 @@
             }
           }
         ],
-        "focused_column": 0,
+        "focused_column": 2,
         "focused_window_in_column": 0,
-        "scroll_offset": 0.0,
+        "scroll_offset": 2126.0,
         "gap": 5,
         "outer_gap_left": 5,
         "outer_gap_right": 5,
