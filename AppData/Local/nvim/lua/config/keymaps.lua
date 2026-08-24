@@ -14,6 +14,10 @@ vim.opt.clipboard = "unnamedplus"
 -- =========================================================
 
 -- 你 VS Code 里的 jj -> Esc
+--
+--
+
+--
 map("i", "jj", "<Esc>", { desc = "Exit Insert Mode" })
 
 -- =========================================================
@@ -218,9 +222,9 @@ end, {
 -- gr：
 -- 你的 VS Code：find references
 -- LazyVim 默认本来就是这个
-map("n", "gr", vim.lsp.buf.references, {
-    desc = "References",
-})
+-- map("n", "gr", vim.lsp.buf.references, {
+--     desc = "References",
+-- })
 
 -- =========================================================
 -- Leader + s + r

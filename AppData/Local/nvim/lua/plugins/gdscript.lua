@@ -1,20 +1,26 @@
 --godotscript的lsp
+--
+--修bug：win无法打开场景树
+--
+--在lua/godotdev/scene_tree.lua找到:
+--if not path:match("^/") then
+--   absolute = root .. "/" .. path
+-- end
+-- 改成：
+--if not path:match("^/") and not path:match("^%a:[/\\]") then
+--   absolute = root .. "/" .. path
+-- end
+--
+--
 return {
     {
         "Mathijs-Bakker/godotdev.nvim",
-        ft = { "gd", "gdshader", "gdscript" },
+        ft = { "gd", "gdshader", "tscn", "gdscript" },
         dependencies = {
             "mfussenegger/nvim-dap",
             "rcarriga/nvim-dap-ui",
             "nvim-treesitter/nvim-treesitter",
         },
-        opts = { sence_tree = {
-            buffer = {
-                position = "left",
-                size = "0.35",
-            },
-        } },
-
         config = function()
             require("godotdev").setup({
                 editor_host = "127.0.0.1",
@@ -28,9 +34,22 @@ return {
                 inline_hints = {
                     enabled = false,
                 },
+
+                scene_tree = {
+                    icons = false,
+                    buffer = {
+                        position = "left",
+                        size = 0.35,
+                    },
+                },
+
+                vim.keymap.set("n", "<leader>gs", "<cmd>GodotSceneTree<cr>", {
+                    desc = "Godot Scene Tree",
+                }),
             })
 
             vim.lsp.config("gdscript", {
+
                 filetypes = {
                     "gdscript",
                 },

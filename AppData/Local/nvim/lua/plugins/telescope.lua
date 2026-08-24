@@ -8,6 +8,10 @@ return {
         { "<leader>j", "<cmd>Telescope live_grep<cr>", desc = "Search Text" },
         { "<leader>b", "<cmd>Telescope buffers<cr>", desc = "List Buffers" },
         -- { "<leader>h", "<cmd>Telescope help_tags<cr>", desc = "Help Tags" },
+        { "gr", "<cmd>Telescope lsp_references<cr>", desc = "lise reference" },
+        { "gR", "<cmd>Telescope grep_string<cr>", desc = "lise reference" },
+
+        { "gd", "<cmd>Telescope lsp_definitions<cr>", desc = "lise reference" },
         { "<leader>o", "<cmd>Telescope lsp_document_symbols<cr>", desc = "Document Symbols" },
         -- 针对扩展扩展（Zoxide）的懒加载函数写法
         {
@@ -39,6 +43,11 @@ return {
 
     opts = {
         defaults = {
+            --屏蔽.tscn等文件
+            file_ignore_patterns = {
+                "%.uid$",
+                -- "%.tscn$",
+            },
             path_display = { "smart" },
             vimgrep_arguments = {
                 "rg",

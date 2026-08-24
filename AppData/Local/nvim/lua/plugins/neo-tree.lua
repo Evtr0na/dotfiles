@@ -21,6 +21,18 @@ return {
             },
         },
         filesystem = {
+            --隐藏文件
+            filtered_items = {
+                visible = false,
+                hide_by_name = {
+                    -- ".git",
+                },
+                hide_by_pattern = {
+                    "*.tscn",
+                    "*.uid",
+                    "*.godot",
+                },
+            },
             follow_current_file = {
                 enabled = true,
             },

@@ -12,6 +12,7 @@
   "gdshader_neovim_support": { "branch": "main", "commit": "4944992a6075335e9bb0d1eb38ec58208a0dbc27" },
   "godot_color_theme": { "branch": "master", "commit": "e1d809c1fb12c048fcc809c0b53c794a1381f4c1" },
   "godotdev.nvim": { "branch": "master", "commit": "3dc1aa7652c8702962149721ef2ad20cd4a1aa52" },
+  "inc-rename.nvim": { "branch": "main", "commit": "ddff8bd3eccedf043bd73f5bf89cf90d2d6d8105" },
   "lazy.nvim": { "branch": "main", "commit": "306a05526ada86a7b30af95c5cc81ffba93fef97" },
   "mason-lspconfig.nvim": { "branch": "main", "commit": "9d28935aa95fa6c1dc7c4d6747f101a72a8a4bec" },
   "mason.nvim": { "branch": "main", "commit": "2a6940af80375532e5e9e7c1f2fc6319a1b7a69d" },
