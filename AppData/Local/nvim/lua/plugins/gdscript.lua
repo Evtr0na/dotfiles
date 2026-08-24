@@ -14,7 +14,7 @@
 --
 return {
     {
-        "Mathijs-Bakker/godotdev.nvim",
+        "Evtr0na/godotdev.nvim",
         ft = { "gd", "gdshader", "tscn", "gdscript" },
         dependencies = {
             "mfussenegger/nvim-dap",
