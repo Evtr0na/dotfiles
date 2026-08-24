@@ -6,13 +6,14 @@
 --------------------------------
 --vim
 --------------------------------
-
+-- 始终保持 Sign Column 展开（推荐设为 yes，或者指定固定宽度 "yes:1" / "yes:2"）
+vim.o.signcolumn = "yes"
 -- vim.opt.autochdir = true
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 --vim.o.guifont = "Sarasa Term SC:h14"
 vim.diagnostic.config({
-	signs = false,
+    signs = false,
 })
 
 vim.opt.number = true -- 显示当前行的绝对行号
@@ -23,11 +24,11 @@ vim.opt.relativenumber = true -- 显示相对行号（光标上下行显示距�
 --------------------------------
 
 if vim.g.neovide then
-	vim.g.neovide_cursor_animation_length = 0
-	vim.g.neovide_cursor_short_animation_length = 0
-	vim.g.neovide_scroll_animation_length = 0
-	vim.g.neovide_cursor_animate_in_insert_mode = false
-	vim.g.neovide_cursor_animate_command_line = false
+    vim.g.neovide_cursor_animation_length = 0
+    vim.g.neovide_cursor_short_animation_length = 0
+    vim.g.neovide_scroll_animation_length = 0
+    vim.g.neovide_cursor_animate_in_insert_mode = false
+    vim.g.neovide_cursor_animate_command_line = false
 end
 -- 下面继续你原来的 options
 
@@ -45,3 +46,16 @@ vim.o.shiftwidth = 4
 
 -- 4. 设置 1 个 \t 制表符在屏幕上渲染时只占用 2 个字符宽度
 vim.o.tabstop = 1
+
+--------------------------------
+-- Lazy.nvim Add_On_MangerBlackGround_Color
+--------------------------------
+vim.api.nvim_create_autocmd("ColorScheme", {
+    pattern = "*",
+    callback = function()
+        -- 自定义 Lazy 界面背景底色
+        vim.api.nvim_set_hl(0, "LazyNormal", { bg = "#181818" })
+        -- vim.api.nvim_set_hl(0, "LazyBorder", { bg = "#181818", fg = "#b4befe" })
+        vim.api.nvim_set_hl(0, "LazyBorder", { bg = "#181818" })
+    end,
+})

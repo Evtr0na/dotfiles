@@ -1,99 +1,14 @@
 {
-  "saved_at": "1787472824",
+  "saved_at": "1787506505",
   "workspaces": [
     {
       "monitor_device_name": "\\\\.\\DISPLAY1",
       "workspace_index": 0,
       "workspace": {
-        "columns": [
-          {
-            "width": 1272,
-            "windows": [
-              67224
-            ],
-            "height_weights": [
-              1.0
-            ],
-            "mode": {
-              "type": "vertical"
-            }
-          },
-          {
-            "width": 1272,
-            "windows": [
-              67584
-            ],
-            "height_weights": [
-              1.0
-            ],
-            "mode": {
-              "type": "vertical"
-            }
-          },
-          {
-            "width": 2123,
-            "windows": [
-              1181500
-            ],
-            "height_weights": [
-              1.0
-            ],
-            "mode": {
-              "type": "vertical"
-            }
-          },
-          {
-            "width": 2123,
-            "windows": [
-              1903012
-            ],
-            "height_weights": [
-              1.0
-            ],
-            "mode": {
-              "type": "vertical"
-            }
-          },
-          {
-            "width": 2123,
-            "windows": [
-              461592
-            ],
-            "height_weights": [
-              1.0
-            ],
-            "mode": {
-              "type": "vertical"
-            }
-          },
-          {
-            "width": 1272,
-            "windows": [
-              8653254
-            ],
-            "height_weights": [
-              1.0
-            ],
-            "mode": {
-              "type": "vertical"
-            }
-          },
-          {
-            "width": 1272,
-            "windows": [
-              132644
-            ],
-            "height_weights": [
-              1.0
-            ],
-            "mode": {
-              "type": "vertical"
-            }
-          }
-        ],
-        "focused_column": 4,
+        "columns": [],
+        "focused_column": 0,
         "focused_window_in_column": 0,
-        "scroll_offset": 5956.0,
+        "scroll_offset": 0.0,
         "gap": 5,
         "outer_gap_left": 5,
         "outer_gap_right": 5,

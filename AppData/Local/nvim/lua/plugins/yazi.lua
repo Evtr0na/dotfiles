@@ -1,11 +1,19 @@
 --终端文件管理
 return {
     "mikavilpas/yazi.nvim",
-    event = "VeryLazy",
+    -- event = "VeryLazy",
     keys = {
         -- 快捷键打开 yazi
-        { "<leader>y", "<cmd>Yazi<cr>", desc = "打开 Yazi 文件管理器" },
-        { "<leader>Y", "<cmd>Yazi cwd<cr>", desc = "在工作根目录打开 Yazi" },
+        {
+            "<leader>y",
+            "<cmd>Yazi<cr>",
+            desc = "打开 Yazi 文件管理器",
+        },
+        {
+            "<leader>Y",
+            "<cmd>Yazi cwd<cr>",
+            desc = "在工作根目录打开 Yazi",
+        },
     },
     opts = {
         -- 浮窗大小

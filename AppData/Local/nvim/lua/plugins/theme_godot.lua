@@ -1,7 +1,7 @@
 return {
     "voylin/godot_color_theme",
-    lazy = false,
     -- priority = 1000,
+    lazy = true,
     config = function()
         -- 1. 启动 Godot 主题
         -- vim.cmd.colorscheme("godot")

@@ -1,24 +1,25 @@
 return {
     -- Mason本体
-    {
-        "williamboman/mason.nvim",
-        build = ":MasonUpdate",
-        opts = {
-            ui = { border = "rounded" },
-        },
-    },
-
-    -- mason‑lspconfig 桥接
-    {
-        "williamboman/mason-lspconfig.nvim",
-        dependencies = { "mason.nvim" },
-        opts = {},
-    },
 
     -- nvim‑lspconfig + 全自动LSP启动
     {
         "neovim/nvim-lspconfig",
+        event = { "BufReadPre", "BufNewFile" },
+        dependencies = {
 
+            {
+                "williamboman/mason.nvim",
+                build = ":MasonUpdate",
+                opts = {
+                    ui = { border = "rounded" },
+                },
+            },
+            {
+                "williamboman/mason-lspconfig.nvim",
+                dependencies = { "mason.nvim" },
+                opts = {},
+            },
+        },
         config = function()
             local mason_lspconfig = require("mason-lspconfig")
             mason_lspconfig.setup()

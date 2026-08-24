@@ -2,6 +2,9 @@
 
 return {
     "nvim-neo-tree/neo-tree.nvim",
+    keys = {
+        { "<leader>e", "<cmd>Neotree toggle<cr>", desc = "Toggle NeoTree" },
+    },
     dependencies = {
         "nvim-lua/plenary.nvim",
         "MunifTanjim/nui.nvim",

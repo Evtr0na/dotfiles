@@ -3,6 +3,21 @@
 return {
     "nvim-telescope/telescope.nvim",
 
+    keys = {
+        { "<leader>f", "<cmd>Telescope find_files<cr>", desc = "Find File" },
+        { "<leader>j", "<cmd>Telescope live_grep<cr>", desc = "Search Text" },
+        { "<leader>b", "<cmd>Telescope buffers<cr>", desc = "List Buffers" },
+        -- { "<leader>h", "<cmd>Telescope help_tags<cr>", desc = "Help Tags" },
+        { "<leader>o", "<cmd>Telescope lsp_document_symbols<cr>", desc = "Document Symbols" },
+        -- 针对扩展扩展（Zoxide）的懒加载函数写法
+        {
+            "<leader>z",
+            function()
+                require("telescope").extensions.zoxide.list()
+            end,
+            desc = "Zoxide jump",
+        },
+    },
     dependencies = {
         "nvim-lua/plenary.nvim",
 
