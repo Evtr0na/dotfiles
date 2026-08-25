@@ -15,7 +15,8 @@
 return {
     {
         "Evtr0na/godotdev.nvim",
-        ft = { "gd", "gdshader", "tscn", "gdscript" },
+        -- enabled = false,
+        ft = { "gd", "gdshader", "gdscript" },
         dependencies = {
             "mfussenegger/nvim-dap",
             "rcarriga/nvim-dap-ui",
@@ -43,9 +44,10 @@ return {
                     },
                 },
 
-                vim.keymap.set("n", "<leader>gs", "<cmd>GodotSceneTree<cr>", {
-                    desc = "Godot Scene Tree",
-                }),
+                --文件树快捷键
+                -- vim.keymap.set("n", "<leader>gs", "<cmd>GodotSceneTree<cr>", {
+                --     desc = "Godot Scene Tree",
+                -- }),
             })
 
             vim.lsp.config("gdscript", {

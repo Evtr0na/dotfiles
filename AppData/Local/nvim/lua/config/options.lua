@@ -8,6 +8,8 @@
 --------------------------------
 -- 始终保持 Sign Column 展开（推荐设为 yes，或者指定固定宽度 "yes:1" / "yes:2"）
 vim.o.signcolumn = "yes"
+-- 关闭右下角的横竖号数
+vim.opt.ruler = false
 -- vim.opt.autochdir = true
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "

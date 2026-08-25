@@ -45,8 +45,10 @@ return {
         defaults = {
             --屏蔽.tscn等文件
             file_ignore_patterns = {
-                "%.uid$",
-                -- "%.tscn$",
+
+                "vimdow", -- godot
+                "%.uid$", -- godot
+                -- "%.tscn$", -- godot
             },
             path_display = { "smart" },
             vimgrep_arguments = {

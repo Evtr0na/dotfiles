@@ -130,8 +130,16 @@ workspaces:
   - name: '7'
   - name: '8'
   - name: '9'
-
+  # TODO: 
 window_rules:
+
+
+  - commands: ["set-floating"]
+    match:
+      - window_process: { equals: "Godot471" }
+
+
+
   - commands: ['ignore']
     match:
       # Ignores any Zebar windows.
