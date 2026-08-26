@@ -1,64 +1,90 @@
 return {
-    -- Mason本体
-
-    -- nvim‑lspconfig + 全自动LSP启动
     {
         "neovim/nvim-lspconfig",
-        event = { "BufReadPre", "BufNewFile" },
-        dependencies = {
 
+        event = {
+            "BufReadPre",
+            "BufNewFile",
+        },
+
+        dependencies = {
+            ------------------------------------------------------------
+            -- Blink
+            ------------------------------------------------------------
+            -- 确保 Blink 在 LSP 之前加载
+            "saghen/blink.cmp",
+
+            ------------------------------------------------------------
+            -- Mason
+            ------------------------------------------------------------
             {
-                "williamboman/mason.nvim",
+                "mason-org/mason.nvim",
+
                 build = ":MasonUpdate",
+
                 opts = {
-                    ui = { border = "rounded" },
+                    ui = {
+                        border = "rounded",
+                    },
                 },
             },
-            {
-                "williamboman/mason-lspconfig.nvim",
-                dependencies = { "mason.nvim" },
-                opts = {},
-            },
+
+            ------------------------------------------------------------
+            -- Mason <-> LSP bridge
+            ------------------------------------------------------------
+            -- 这里不要写 opts = {}
+            -- 我们下面自己 setup，一次就够了
+            "mason-org/mason-lspconfig.nvim",
         },
+
         config = function()
-            local mason_lspconfig = require("mason-lspconfig")
-            mason_lspconfig.setup()
+            ------------------------------------------------------------
+            -- lua_ls
+            ------------------------------------------------------------
+            vim.lsp.config("lua_ls", {
+                -- 关闭 lua_ls 的颜色显示
+                on_attach = function(client, bufnr)
+                    client.server_capabilities.colorProvider = false
+                end,
 
-            -- 👉 黑名单：不想自动启动的LSP放这里
-            local blacklist = {
-                ast_grep = true,
-            }
+                settings = {
+                    Lua = {
+                        runtime = {
+                            version = "LuaJIT",
+                        },
 
-            -- 👉 自定义配置注册表：只有需要特殊参数的LSP才放这里
-            local custom_settings = {
-                lua_ls = {
-                    --作用是关闭颜色的可视化显示
-                    on_attach = function(client, bufnr)
-                        client.server_capabilities.colorProvider = false
-                    end,
-
-                    settings = {
-                        Lua = {
-                            runtime = { version = "LuaJIT" },
-                            diagnostics = { globals = { "vim" } },
-                            workspace = {
-                                checkThirdParty = false,
-                                library = vim.api.nvim_get_runtime_file("", true),
+                        diagnostics = {
+                            globals = {
+                                "vim",
                             },
-                            telemetry = { enable = false },
+                        },
+
+                        workspace = {
+                            checkThirdParty = false,
+
+                            library = vim.api.nvim_get_runtime_file("", true),
+                        },
+
+                        telemetry = {
+                            enable = false,
                         },
                     },
                 },
-            }
+            })
 
-            -- 全自动循环启用所有已经安装好、不在黑名单内的LSP
-            for _, server_name in ipairs(mason_lspconfig.get_installed_servers()) do
-                if not blacklist[server_name] then
-                    local opts = custom_settings[server_name] or {}
-                    vim.lsp.config(server_name, opts)
-                    vim.lsp.enable(server_name)
-                end
-            end
+            ------------------------------------------------------------
+            -- Mason LSP
+            ------------------------------------------------------------
+            require("mason-lspconfig").setup({
+                -- Mason 安装的 LSP 默认自动 enable
+                --
+                -- 但排除 ast_grep
+                automatic_enable = {
+                    exclude = {
+                        "ast_grep",
+                    },
+                },
+            })
         end,
     },
 }

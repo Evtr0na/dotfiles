@@ -1,9 +1,25 @@
-require("bootstrap") --安装lazy-nvim插件管理
+require("bootstrap")
 
-require("config.options") --vim.opt
-require("config.keymaps") -- 快捷键
-require("config.autocmds") -- 自动命令
+------------------------------------------------------------
+-- 基础配置
+------------------------------------------------------------
+require("config.options")
+require("config.keymaps")
+require("config.autocmds")
 
-require("config.diagnostics") -- 自定义lsp报错
-vim.lsp.enable("gdshader_lsp")
-require("lazy").setup("plugins") -- 安装插件
+------------------------------------------------------------
+-- Diagnostic
+------------------------------------------------------------
+require("lsp.LSP_Virtual_Text")
+
+------------------------------------------------------------
+-- Plugins
+------------------------------------------------------------
+require("lazy").setup("plugins")
+
+------------------------------------------------------------
+-- 自定义 LSP
+------------------------------------------------------------
+-- 放到 lazy.setup 后面，
+-- 确保 blink.cmp 已经初始化 LSP capabilities
+require("lsp.gdshader-lsp-cpp")
