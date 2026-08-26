@@ -14,9 +14,6 @@ vim.opt.ruler = false
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 --vim.o.guifont = "Sarasa Term SC:h14"
-vim.diagnostic.config({
-    signs = false,
-})
 
 vim.opt.number = true -- 显示当前行的绝对行号
 vim.opt.relativenumber = true -- 显示相对行号（光标上下行显示距离）

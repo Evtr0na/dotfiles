@@ -4,7 +4,6 @@ require("config.options") --vim.opt
 require("config.keymaps") -- 快捷键
 require("config.autocmds") -- 自动命令
 
-require("lsp.LSP_Virtual_Text") -- 自定义lsp报错
-require("lsp.gdshader-lsp-cpp")
-
+require("config.diagnostics") -- 自定义lsp报错
+vim.lsp.enable("gdshader_lsp")
 require("lazy").setup("plugins") -- 安装插件
