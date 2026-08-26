@@ -10,7 +10,7 @@ require("config.autocmds")
 ------------------------------------------------------------
 -- Diagnostic
 ------------------------------------------------------------
-require("lsp.LSP_Virtual_Text")
+require("config.diagnostics")
 
 ------------------------------------------------------------
 -- Plugins
@@ -22,4 +22,4 @@ require("lazy").setup("plugins")
 ------------------------------------------------------------
 -- 放到 lazy.setup 后面，
 -- 确保 blink.cmp 已经初始化 LSP capabilities
-require("lsp.gdshader-lsp-cpp")
+vim.lsp.enable("gdshader_lsp")
