@@ -7,6 +7,8 @@ require("config.options")
 require("config.keymaps")
 require("config.autocmds")
 
+require("config.filetypes") -- gdshader
+
 ------------------------------------------------------------
 -- Diagnostic
 ------------------------------------------------------------
@@ -22,4 +24,4 @@ require("lazy").setup("plugins")
 ------------------------------------------------------------
 -- 放到 lazy.setup 后面，
 -- 确保 blink.cmp 已经初始化 LSP capabilities
-vim.lsp.enable("gdshader_lsp")
+-- vim.lsp.enable("gdshader_lsp")

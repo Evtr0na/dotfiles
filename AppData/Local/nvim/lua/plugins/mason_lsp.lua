@@ -37,6 +37,28 @@ return {
             "mason-org/mason-lspconfig.nvim",
         },
 
+        -- 这尼玛一堆bug
+        -- vim.lsp.config("gdshader_lsp", {
+        --     cmd = {
+        --         "D:/2zhuomian/app/neovim-tool/gdshader-lsp-cpp-master/gdshader_lsp_release_windows.exe",
+        --         "--stdio",
+        --     },
+        --
+        --     filetypes = {
+        --
+        --         "gdshader",
+        --         "gdshaderinc",
+        --     },
+        --     -- nvim-lspconfig 默认只有 project.godot，
+        --     -- 这里顺便允许 Git 仓库作为 root。
+        --     root_markers = {
+        --         "project.godot",
+        --         ".git",
+        --     },
+        -- }),
+        --
+        -- vim.lsp.enable("gdshader_lsp"),
+
         config = function()
             ------------------------------------------------------------
             -- lua_ls

@@ -1,6 +1,7 @@
 return {
     {
         "saghen/blink.cmp",
+        event = { "BufReadPost", "BufNewFile" },
 
         -- 固定使用稳定的 v1
         version = "1.*",
