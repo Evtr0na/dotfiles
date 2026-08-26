@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/SDD/AppData/Local/nvim-data/lazy/ring0-dark.nvim/lua/ring0dark/**)",
+      "Read(//c/Users/SDD/**)"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\SDD"
+    ]
+  }
+}
