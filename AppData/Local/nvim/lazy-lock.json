@@ -9,7 +9,6 @@
   "conform.nvim": { "branch": "master", "commit": "016802de402556da54c36bd7359b441266b01cdd" },
   "flash.nvim": { "branch": "main", "commit": "5f0f270fdc7c5b0c21d903ee85b9cb06f2ac636a" },
   "friendly-snippets": { "branch": "main", "commit": "6cd7280adead7f586db6fccbd15d2cac7e2188b9" },
-  "gdshader_neovim_support": { "branch": "main", "commit": "4944992a6075335e9bb0d1eb38ec58208a0dbc27" },
   "godot_color_theme": { "branch": "master", "commit": "e1d809c1fb12c048fcc809c0b53c794a1381f4c1" },
   "godotdev.nvim": { "branch": "master", "commit": "e0699e153360926eb206ffb1c0239a6ee400c8c8" },
   "inc-rename.nvim": { "branch": "main", "commit": "ddff8bd3eccedf043bd73f5bf89cf90d2d6d8105" },

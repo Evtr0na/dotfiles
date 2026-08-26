@@ -9,3 +9,4 @@
 [2m2026-08-25T09:30:27.442275Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m duplicate field `window_rules`
 [2m2026-08-25T09:30:38.301443Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m duplicate field `window_rules`
 [2m2026-08-25T09:30:59.244155Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m found unknown escape character at line 143 column 51, while parsing a quoted scalar at line 143 column 34
+[2m2026-08-26T04:37:29.918048Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Shell exec failed for 'zebar'. Make sure the program exists and is accessible from your shell. Error: 操作已被用户取消。 (0x800704C7)

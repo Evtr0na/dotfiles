@@ -99,7 +99,8 @@ window_effects:
 window_behavior:
   # New windows are created in this state whenever possible.
   # Allowed values: 'tiling', 'floating'.
-  initial_state: 'tiling'
+  # initial_state: 'tiling'
+  initial_state: 'floating'
 
   # Sets the default options for when a new window is created. This also
   # changes the defaults for when the state change commands, like
@@ -133,6 +134,9 @@ workspaces:
   # TODO: 
 window_rules:
 
+  - commands: ["set-floating"]
+    match:
+      - window_process: { equals: "Weixin" }
 
   - commands: ["set-floating"]
     match:
