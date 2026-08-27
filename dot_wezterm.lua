@@ -30,7 +30,7 @@ config.enable_tab_bar = true
 -- 设置与 Neovim 主题一致的背景色（这里以纯黑为例，请换成你 Neovim 的实际背景色）
 config.colors = {
 	-- cursor_fg = '#6c6c6c',     -- 光标前景色（光标覆盖在文字上时，文字显示的颜色）
-	cursor_bg = "#CAD5F3", -- 光标背景色（即光标自身的颜色，如鲜红色）
+	cursor_bg = "#CDD6F4", -- 光标背景色（即光标自身的颜色，如鲜红色）
 	-- cursor_border = '#ff5555', -- 光标边框颜色（可选）
 	background = "#181818",
 	foreground = "#e4e4e4",

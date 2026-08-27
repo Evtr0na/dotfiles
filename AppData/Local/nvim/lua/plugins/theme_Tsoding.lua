@@ -24,6 +24,20 @@ return {
             SignColumn = { bg = "NONE" },
             StatusLine = { bg = color_status },
             StatusLineNC = { bg = color_status },
+
+            ----------------------------------------
+            -- Ufo color
+            ----------------------------------------
+
+            -- 真正的 Neovim 折叠行背景
+            Folded = {
+                bg = "#181818",
+            },
+            --
+            -- UFO 普通折叠行
+            UfoFoldedBg = {
+                bg = "#181818",
+            },
         }
 
         -- 应用自定义高亮
