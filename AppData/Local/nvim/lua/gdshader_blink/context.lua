@@ -1,26 +1,77 @@
 local M = {}
+
 local builtin_variables = require("gdshader_blink.data.builtin_variables")
+local processors = require("gdshader_blink.data.processors")
+local document = require("gdshader_blink.semantic.document")
 ------------------------------------------------------------
--- Vector 类型
+-- Processor lookup
 ------------------------------------------------------------
 
-local vector_sizes = {
-    vec2 = 2,
-    vec3 = 3,
-    vec4 = 4,
+local function get_processors_for_shader(shader_type)
+    if not shader_type then
+        return {}
+    end
 
-    ivec2 = 2,
-    ivec3 = 3,
-    ivec4 = 4,
+    return processors[shader_type] or {}
+end
 
-    uvec2 = 2,
-    uvec3 = 3,
-    uvec4 = 4,
+local function get_processor_definition(shader_type, name)
+    for _, processor in ipairs(get_processors_for_shader(shader_type)) do
+        if processor.name == name then
+            return processor
+        end
+    end
 
-    bvec2 = 2,
-    bvec3 = 3,
-    bvec4 = 4,
-}
+    return nil
+end
+
+local function is_processor_name(shader_type, name)
+    return get_processor_definition(shader_type, name) ~= nil
+end
+
+------------------------------------------------------------
+-- 获取当前文档中的所有函数
+------------------------------------------------------------
+
+function M.get_functions(bufnr)
+    return document.get_functions(bufnr)
+end
+
+------------------------------------------------------------
+-- 获取当前函数上下文
+------------------------------------------------------------
+
+function M.get_function_context(bufnr, cursor_line)
+    bufnr = bufnr or 0
+
+    cursor_line = cursor_line or vim.api.nvim_win_get_cursor(0)[1]
+
+    for _, fn in ipairs(M.get_functions(bufnr)) do
+        local end_line = fn.end_line or math.huge
+
+        if cursor_line >= fn.start_line and cursor_line <= end_line then
+            return fn
+        end
+    end
+
+    return nil
+end
+
+------------------------------------------------------------
+-- 获取当前 uniform 的类型
+--
+-- uniform float amount :
+--         ↑
+-- 返回 float
+--
+-- uniform sampler2D texture :
+--         ↑
+-- 返回 sampler2D
+------------------------------------------------------------
+
+function M.get_uniform_type_before_cursor(before_cursor)
+    return before_cursor:match("uniform%s+" .. "([%a_][%w_]*)" .. "%s+" .. "[%a_][%w_]*" .. "%s*:")
+end
 
 ------------------------------------------------------------
 -- 查找 built-in variable
@@ -36,6 +87,14 @@ function M.get_builtin_variable(bufnr, name, cursor_line)
     end
 
     return nil
+end
+
+------------------------------------------------------------
+-- 获取 shader_type
+------------------------------------------------------------
+
+function M.get_shader_type(bufnr)
+    return document.get_shader_type(bufnr)
 end
 
 ------------------------------------------------------------
@@ -97,6 +156,218 @@ function M.get_builtin_variables(bufnr, cursor_line)
 end
 
 ------------------------------------------------------------
+-- 获取所有 global declarations
+------------------------------------------------------------
+
+local function get_global_declarations(bufnr)
+    return document.get_global_declarations(bufnr)
+end
+
+------------------------------------------------------------
+-- 获取用户声明的 symbols
+------------------------------------------------------------
+--new
+function M.get_user_symbols(bufnr, cursor_line)
+    bufnr = bufnr or 0
+
+    cursor_line = cursor_line or vim.api.nvim_win_get_cursor(0)[1]
+
+    local result = {}
+    local seen = {}
+
+    --------------------------------------------------------
+    -- Add symbol
+    --
+    -- 先加入的同名 symbol 胜出。
+    --
+    -- 因此顺序：
+    --
+    -- local inner
+    -- local outer
+    -- parameter
+    -- global
+    --------------------------------------------------------
+
+    local function add_symbol(symbol)
+        if not symbol or not symbol.name then
+            return
+        end
+
+        if seen[symbol.name] then
+            return
+        end
+
+        seen[symbol.name] = true
+
+        table.insert(result, symbol)
+    end
+
+    --------------------------------------------------------
+    -- Local scopes + parameters
+    --------------------------------------------------------
+
+    local local_symbols = document.get_local_symbols(bufnr, cursor_line)
+
+    for _, symbol in ipairs(local_symbols) do
+        add_symbol(symbol)
+    end
+
+    --------------------------------------------------------
+    -- Global declarations
+    --------------------------------------------------------
+
+    local global_declarations = get_global_declarations(bufnr)
+
+    for _, declaration in ipairs(global_declarations) do
+        ----------------------------------------------------
+        -- 保持现有行为：
+        --
+        -- cursor 后面的 global 暂时不可见。
+        ----------------------------------------------------
+
+        if declaration.line <= cursor_line then
+            add_symbol(declaration)
+        end
+    end
+
+    return result
+end
+
+------------------------------------------------------------
+-- 根据名字查找用户 symbol
+--
+-- get_user_symbols() 已经按照：
+--
+-- inner local
+-- outer local
+-- parameter
+-- global
+--
+-- 处理好了 shadowing。
+--
+-- 因此这里取第一个同名 symbol 即可。
+------------------------------------------------------------
+
+function M.get_user_symbol(bufnr, name, cursor_line)
+    if not name or name == "" then
+        return nil
+    end
+
+    local symbols = M.get_user_symbols(bufnr, cursor_line)
+
+    for _, symbol in ipairs(symbols) do
+        if symbol.name == name then
+            return symbol
+        end
+    end
+
+    return nil
+end
+
+------------------------------------------------------------
+-- 获取用户自定义函数
+------------------------------------------------------------
+
+function M.get_user_functions(bufnr)
+    bufnr = bufnr or 0
+
+    local shader_type = M.get_shader_type(bufnr)
+
+    local result = {}
+
+    for _, fn in ipairs(M.get_functions(bufnr)) do
+        ----------------------------------------------------
+        -- 当前 shader 的 processor 不算 user function
+        ----------------------------------------------------
+
+        if not is_processor_name(shader_type, fn.name) then
+            table.insert(result, fn)
+        end
+    end
+
+    return result
+end
+
+------------------------------------------------------------
+-- 用户函数 signature
+------------------------------------------------------------
+
+function M.get_function_signature(fn)
+    local parameters = {}
+
+    for _, parameter in ipairs(fn.parameters) do
+        local text = ""
+
+        if parameter.mode then
+            text = parameter.mode .. " "
+        end
+
+        text = text .. parameter.type .. " " .. parameter.name
+
+        table.insert(parameters, text)
+    end
+
+    return fn.return_type .. " " .. fn.name .. "(" .. table.concat(parameters, ", ") .. ")"
+end
+
+------------------------------------------------------------
+-- 根据名字查用户函数
+--
+-- 返回数组，为以后 overload 做准备
+------------------------------------------------------------
+
+function M.get_user_functions_by_name(bufnr, name)
+    local result = {}
+
+    local functions = M.get_user_functions(bufnr)
+
+    for _, fn in ipairs(functions) do
+        if fn.name == name then
+            table.insert(result, fn)
+        end
+    end
+
+    return result
+end
+
+------------------------------------------------------------
+-- "." 前面的函数调用
+--
+-- calculate_color(...).
+------------------------------------------------------------
+
+function M.get_function_call_before_dot(before_cursor)
+    return before_cursor:match("([%a_][%w_]*)" .. "%s*" .. "%b()" .. "%s*" .. "%." .. "[%w_]*$")
+end
+
+------------------------------------------------------------
+-- 用户函数返回类型
+------------------------------------------------------------
+
+function M.get_user_function_return_type(bufnr, name)
+    local functions = M.get_user_functions_by_name(bufnr, name)
+
+    if #functions == 0 then
+        return nil
+    end
+
+    local return_type = functions[1].return_type
+
+    --------------------------------------------------------
+    -- 如果存在 overload，
+    -- 只有所有返回类型一致时才安全推断
+    --------------------------------------------------------
+
+    for i = 2, #functions do
+        if functions[i].return_type ~= return_type then
+            return nil
+        end
+    end
+
+    return return_type
+end
+
+------------------------------------------------------------
 -- 获取当前所在函数
 --
 -- 例如：
@@ -109,90 +380,20 @@ end
 ------------------------------------------------------------
 
 function M.get_processor(bufnr, cursor_line)
-    bufnr = bufnr or 0
+    local fn = M.get_function_context(bufnr, cursor_line)
 
-    cursor_line = cursor_line or vim.api.nvim_win_get_cursor(0)[1]
-
-    local lines = vim.api.nvim_buf_get_lines(bufnr, 0, cursor_line, false)
-
-    local brace_depth = 0
-
-    local current_function = nil
-    local function_depth = nil
-    local pending_function = nil
-
-    for _, original_line in ipairs(lines) do
-        ----------------------------------------------------
-        -- 第一版先去掉 // comment
-        ----------------------------------------------------
-
-        local line = original_line:gsub("//.*$", "")
-
-        ----------------------------------------------------
-        -- 找函数声明
-        --
-        -- void fragment()
-        -- void vertex()
-        -- void light()
-        -- void my_function(...)
-        ----------------------------------------------------
-
-        local function_name = line:match("void%s+([%a_][%w_]*)%s*%(")
-
-        if function_name then
-            pending_function = function_name
-        end
-
-        ----------------------------------------------------
-        -- 计算大括号
-        ----------------------------------------------------
-
-        local _, open_count = line:gsub("{", "")
-
-        local _, close_count = line:gsub("}", "")
-
-        ----------------------------------------------------
-        -- 函数真正开始
-        ----------------------------------------------------
-
-        if pending_function and open_count > 0 then
-            current_function = pending_function
-
-            function_depth = brace_depth + 1
-
-            pending_function = nil
-        end
-
-        brace_depth = brace_depth + open_count - close_count
-
-        ----------------------------------------------------
-        -- 离开函数
-        ----------------------------------------------------
-
-        if current_function and function_depth and brace_depth < function_depth then
-            current_function = nil
-            function_depth = nil
-        end
+    if not fn then
+        return nil
     end
 
-    return current_function
-end
+    local shader_type = M.get_shader_type(bufnr)
 
-------------------------------------------------------------
--- 获取 shader_type
-------------------------------------------------------------
+    if not shader_type then
+        return nil
+    end
 
-function M.get_shader_type(bufnr)
-    bufnr = bufnr or 0
-
-    local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
-
-    for _, line in ipairs(lines) do
-        local shader_type = line:match("shader_type%s+([%w_]+)%s*;")
-
-        if shader_type then
-            return shader_type
-        end
+    if get_processor_definition(shader_type, fn.name) then
+        return fn.name
     end
 
     return nil
@@ -207,70 +408,18 @@ function M.get_identifier_before_dot(before_cursor)
 end
 
 ------------------------------------------------------------
--- 从代码中寻找变量声明
-------------------------------------------------------------
-
-local function find_declared_type(bufnr, name, cursor_line)
-    bufnr = bufnr or 0
-
-    cursor_line = cursor_line or vim.api.nvim_win_get_cursor(0)[1]
-
-    --------------------------------------------------------
-    -- 只扫描当前光标之前
-    --------------------------------------------------------
-
-    local lines = vim.api.nvim_buf_get_lines(bufnr, 0, cursor_line, false)
-
-    --------------------------------------------------------
-    -- 从后往前找
-    --
-    -- 这样局部变量优先于更早的同名变量
-    --------------------------------------------------------
-
-    for i = #lines, 1, -1 do
-        local line = lines[i]
-
-        -- 第一版先去掉 // comment
-        line = line:gsub("//.*$", "")
-
-        ----------------------------------------------------
-        -- 支持：
-        --
-        -- vec3 color;
-        -- vec3 color = ...
-        -- uniform vec3 color;
-        -- const vec3 color = ...
-        -- varying vec3 color;
-        --
-        -- void foo(vec3 color)
-        --
-        -- vec3 colors[4];
-        ----------------------------------------------------
-
-        local pattern = "([%a_][%w_]*)" .. "%s+" .. name .. "%s*" .. "[,;=%)%[]"
-
-        local value_type = line:match(pattern)
-
-        if value_type then
-            return value_type
-        end
-    end
-
-    return nil
-end
-
-------------------------------------------------------------
 -- 获取 identifier 类型
 ------------------------------------------------------------
+
 function M.get_symbol_type(bufnr, name, cursor_line)
     --------------------------------------------------------
-    -- 用户声明
+    -- 用户 symbol
     --------------------------------------------------------
 
-    local declared_type = find_declared_type(bufnr, name, cursor_line)
+    local symbol = M.get_user_symbol(bufnr, name, cursor_line)
 
-    if declared_type then
-        return declared_type
+    if symbol then
+        return symbol.type
     end
 
     --------------------------------------------------------
@@ -284,13 +433,6 @@ function M.get_symbol_type(bufnr, name, cursor_line)
     end
 
     return nil
-end
-------------------------------------------------------------
--- 类型 -> vector size
-------------------------------------------------------------
-
-function M.get_vector_size(type_name)
-    return vector_sizes[type_name]
 end
 
 return M

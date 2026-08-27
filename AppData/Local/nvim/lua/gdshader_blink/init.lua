@@ -3,51 +3,46 @@ local source = {}
 ------------------------------------------------------------
 -- Dependencies
 ------------------------------------------------------------
+local diagnostics = require("gdshader_blink.diagnostics")
+local types = require("gdshader_blink.data.types")
+
+local uniform_hints = require("gdshader_blink.data.uniform_hints")
 
 local kinds = require("blink.cmp.types").CompletionItemKind
-
 local context = require("gdshader_blink.context")
-
 local render_modes = require("gdshader_blink.data.render_modes")
-
 local swizzles = require("gdshader_blink.data.swizzles")
+local builtin_functions = require("gdshader_blink.data.builtin_functions")
+local processors = require("gdshader_blink.data.processors")
+
+local inference = require("gdshader_blink.semantic.inference")
+local semantic_types = require("gdshader_blink.semantic.types")
+local shader_type_names = require("gdshader_blink.data.shader_types")
 
 ------------------------------------------------------------
 -- Static data
 ------------------------------------------------------------
 
-local shader_types = {
-    {
-        label = "spatial",
-        kind = kinds.Keyword,
-        detail = "GDShader shader type",
-    },
-    {
-        label = "canvas_item",
-        kind = kinds.Keyword,
-        detail = "GDShader shader type",
-    },
-    {
-        label = "particles",
-        kind = kinds.Keyword,
-        detail = "GDShader shader type",
-    },
-    {
-        label = "sky",
-        kind = kinds.Keyword,
-        detail = "GDShader shader type",
-    },
-    {
-        label = "fog",
-        kind = kinds.Keyword,
-        detail = "GDShader shader type",
-    },
-}
+local shader_types = {}
 
+for _, name in ipairs(shader_type_names) do
+    table.insert(shader_types, {
+        label = name,
+
+        kind = kinds.Keyword,
+
+        detail = "GDShader shader type",
+    })
+end
 local general_items = {
     --------------------------------------------------------
     -- Keywords
     --------------------------------------------------------
+    {
+        label = "void",
+        kind = kinds.Keyword,
+        detail = "GDShader function return type",
+    },
 
     {
         label = "shader_type",
@@ -78,99 +73,207 @@ local general_items = {
         kind = kinds.Keyword,
         detail = "GDShader keyword",
     },
-
-    --------------------------------------------------------
-    -- Types
-    --------------------------------------------------------
-
-    {
-        label = "float",
-        kind = kinds.TypeParameter,
-        detail = "GDShader type",
-    },
-
-    {
-        label = "int",
-        kind = kinds.TypeParameter,
-        detail = "GDShader type",
-    },
-
-    {
-        label = "bool",
-        kind = kinds.TypeParameter,
-        detail = "GDShader type",
-    },
-
-    {
-        label = "vec2",
-        kind = kinds.TypeParameter,
-        detail = "GDShader type",
-    },
-
-    {
-        label = "vec3",
-        kind = kinds.TypeParameter,
-        detail = "GDShader type",
-    },
-
-    {
-        label = "vec4",
-        kind = kinds.TypeParameter,
-        detail = "GDShader type",
-    },
-
-    {
-        label = "mat3",
-        kind = kinds.TypeParameter,
-        detail = "GDShader type",
-    },
-
-    {
-        label = "mat4",
-        kind = kinds.TypeParameter,
-        detail = "GDShader type",
-    },
-
-    --------------------------------------------------------
-    -- 临时 built-in functions
-    --
-    -- 下一步会把这些移动到 data/builtin_functions.lua
-    --------------------------------------------------------
-
-    {
-        label = "mix",
-        kind = kinds.Snippet,
-        detail = "GDShader built-in function",
-
-        insertText = "mix(${1:a}, ${2:b}, ${3:weight})",
-
-        insertTextFormat = vim.lsp.protocol.InsertTextFormat.Snippet,
-    },
-
-    {
-        label = "clamp",
-        kind = kinds.Snippet,
-        detail = "GDShader built-in function",
-
-        insertText = "clamp(${1:value}, ${2:min}, ${3:max})",
-
-        insertTextFormat = vim.lsp.protocol.InsertTextFormat.Snippet,
-    },
-
-    {
-        label = "texture",
-        kind = kinds.Snippet,
-        detail = "GDShader built-in function",
-
-        insertText = "texture(${1:sampler}, ${2:uv})",
-
-        insertTextFormat = vim.lsp.protocol.InsertTextFormat.Snippet,
-    },
 }
-
 ------------------------------------------------------------
 -- Item builders
 ------------------------------------------------------------
+
+local function make_user_symbol_items(bufnr, cursor_line)
+    local items = {}
+
+    local symbols = context.get_user_symbols(bufnr, cursor_line)
+
+    for _, symbol in ipairs(symbols) do
+        local kind = kinds.Variable
+
+        if symbol.kind == "const" then
+            kind = kinds.Constant
+        end
+
+        local detail = symbol.type .. " · GDShader " .. symbol.kind
+
+        if symbol.mode then
+            detail = symbol.mode .. " " .. detail
+        end
+
+        table.insert(items, {
+            label = symbol.name,
+
+            kind = kind,
+
+            detail = detail,
+        })
+    end
+
+    return items
+end
+
+local function make_user_function_items(bufnr)
+    local items = {}
+
+    local functions = context.get_user_functions(bufnr)
+
+    for _, fn in ipairs(functions) do
+        local placeholders = {}
+
+        ----------------------------------------------------
+        -- 根据参数自动生成 snippet
+        ----------------------------------------------------
+
+        for index, parameter in ipairs(fn.parameters) do
+            table.insert(placeholders, "${" .. index .. ":" .. parameter.name .. "}")
+        end
+
+        local insert_text = fn.name .. "(" .. table.concat(placeholders, ", ") .. ")"
+
+        local signature = context.get_function_signature(fn)
+
+        table.insert(items, {
+            label = fn.name,
+
+            kind = kinds.Function,
+
+            detail = signature .. " · user function",
+
+            documentation = {
+                kind = "markdown",
+
+                value = "```gdshader\n" .. signature .. "\n```",
+            },
+
+            insertText = insert_text,
+
+            insertTextFormat = vim.lsp.protocol.InsertTextFormat.Snippet,
+        })
+    end
+
+    return items
+end
+
+local function make_uniform_hint_items(uniform_type)
+    local items = {}
+
+    for _, hint in ipairs(uniform_hints) do
+        ----------------------------------------------------
+        -- 只显示适用于当前类型的 hint
+        ----------------------------------------------------
+
+        if hint.types[uniform_type] then
+            table.insert(items, {
+                label = hint.name,
+
+                kind = kinds.EnumMember,
+
+                detail = "GDShader uniform hint · " .. uniform_type,
+
+                documentation = hint.description and {
+                    kind = "markdown",
+                    value = hint.description,
+                } or nil,
+
+                insertText = hint.snippet or hint.name,
+
+                insertTextFormat = hint.snippet and vim.lsp.protocol.InsertTextFormat.Snippet
+                    or vim.lsp.protocol.InsertTextFormat.PlainText,
+            })
+        end
+    end
+
+    return items
+end
+
+local function make_type_items()
+    local items = {}
+
+    for _, type_name in ipairs(types) do
+        table.insert(items, {
+            label = type_name,
+
+            kind = kinds.TypeParameter,
+
+            detail = "GDShader type",
+        })
+    end
+
+    return items
+end
+
+local function make_builtin_function_items()
+    local items = {}
+
+    for _, fn in ipairs(builtin_functions) do
+        local documentation = "```gdshader\n" .. fn.signature .. "\n```"
+
+        if fn.description then
+            documentation = documentation .. "\n\n" .. fn.description
+        end
+
+        table.insert(items, {
+            label = fn.name,
+
+            -- 它本质上是函数，
+            -- 即使 insertText 使用 snippet。
+            kind = kinds.Function,
+
+            detail = fn.signature,
+
+            documentation = {
+                kind = "markdown",
+                value = documentation,
+            },
+
+            insertText = fn.snippet,
+
+            insertTextFormat = vim.lsp.protocol.InsertTextFormat.Snippet,
+        })
+    end
+
+    return items
+end
+
+local function make_processor_snippet_items(shader_type)
+    local items = {}
+
+    local shader_processors = processors[shader_type] or {}
+
+    for _, processor in ipairs(shader_processors) do
+        table.insert(items, {
+            label = processor.name,
+
+            kind = kinds.Snippet,
+
+            detail = processor.detail,
+
+            insertText = "void " .. processor.name .. "() {\n\t${1}\n}",
+
+            insertTextFormat = vim.lsp.protocol.InsertTextFormat.Snippet,
+        })
+    end
+
+    return items
+end
+
+local function make_processor_items(shader_type)
+    local items = {}
+
+    local shader_processors = processors[shader_type] or {}
+
+    for _, processor in ipairs(shader_processors) do
+        table.insert(items, {
+            label = processor.name,
+
+            kind = kinds.Function,
+
+            detail = processor.detail,
+
+            insertText = processor.name .. "() {\n\t${1}\n}",
+
+            insertTextFormat = vim.lsp.protocol.InsertTextFormat.Snippet,
+        })
+    end
+
+    return items
+end
 
 local function make_render_mode_items(shader_type)
     local items = {}
@@ -224,7 +327,43 @@ end
 local function make_context_items(ctx, cursor_line)
     local items = vim.deepcopy(general_items)
 
+    --------------------------------------------------------
+    -- Current shader: symbols
+    --------------------------------------------------------
+
+    vim.list_extend(items, make_user_symbol_items(ctx.bufnr, cursor_line))
+
+    --------------------------------------------------------
+    -- Current shader: functions
+    --------------------------------------------------------
+
+    vim.list_extend(items, make_user_function_items(ctx.bufnr))
+
+    --------------------------------------------------------
+    -- Godot built-in variables
+    --------------------------------------------------------
+
     vim.list_extend(items, make_builtin_variable_items(ctx.bufnr, cursor_line))
+
+    --------------------------------------------------------
+    -- Godot built-in functions
+    --------------------------------------------------------
+
+    vim.list_extend(items, make_builtin_function_items())
+
+    --------------------------------------------------------
+    -- Processor snippets
+    --------------------------------------------------------
+
+    local shader_type = context.get_shader_type(ctx.bufnr)
+
+    vim.list_extend(items, make_processor_snippet_items(shader_type))
+
+    --------------------------------------------------------
+    -- Types
+    --------------------------------------------------------
+
+    vim.list_extend(items, make_type_items())
 
     return items
 end
@@ -234,11 +373,12 @@ end
 ------------------------------------------------------------
 
 function source.new()
+    diagnostics.setup()
+
     return setmetatable({}, {
         __index = source,
     })
 end
-
 ------------------------------------------------------------
 -- Enabled
 ------------------------------------------------------------
@@ -256,6 +396,8 @@ end
 function source:get_trigger_characters()
     return {
         ".",
+        ":",
+        ",",
         " ",
     }
 end
@@ -292,7 +434,7 @@ function source:get_completions(ctx, callback)
     --------------------------------------------------------
     -- render_mode
     --------------------------------------------------------
-    elseif before_cursor:match("render_mode%s+[%w_]*$") then
+    elseif before_cursor:match("render_mode%s+[%w_,%s]*$") then
         local shader_type = context.get_shader_type(ctx.bufnr)
 
         if shader_type then
@@ -300,21 +442,46 @@ function source:get_completions(ctx, callback)
         end
 
     --------------------------------------------------------
-    -- Swizzle
+    -- processor function
     --------------------------------------------------------
-    elseif before_cursor:match("%.[%w_]*$") then
-        local identifier = context.get_identifier_before_dot(before_cursor)
+    elseif before_cursor:match("void%s+[%w_]*$") then
+        local shader_type = context.get_shader_type(ctx.bufnr)
 
-        if identifier then
-            local type_name = context.get_symbol_type(ctx.bufnr, identifier, cursor_line)
+        items = make_processor_items(shader_type)
 
-            if type_name then
-                local vector_size = context.get_vector_size(type_name)
+    --------------------------------------------------------
+    -- Member / Swizzle
+    --------------------------------------------------------
+    elseif inference.is_member_completion_context(before_cursor) then
+        local expression = inference.get_expression_before_dot(before_cursor)
 
-                if vector_size then
-                    items = make_swizzle_items(vector_size, type_name)
-                end
+        local type_name = nil
+
+        if expression then
+            type_name = inference.infer_expression_type(ctx.bufnr, expression, cursor_line)
+        end
+
+        if type_name then
+            local vector_size = semantic_types.get_vector_size(type_name)
+            if vector_size then
+                items = make_swizzle_items(vector_size, type_name)
             end
+        end
+
+    --------------------------------------------------------
+    -- uniform type
+    --------------------------------------------------------
+    elseif before_cursor:match("uniform%s+[%w_]*$") then
+        items = make_type_items()
+
+    --------------------------------------------------------
+    -- uniform hint
+    --------------------------------------------------------
+    elseif before_cursor:match('uniform%s+.-:%s*[%w_,()%s"%.%-]*$') then
+        local uniform_type = context.get_uniform_type_before_cursor(before_cursor)
+
+        if uniform_type then
+            items = make_uniform_hint_items(uniform_type)
         end
 
     --------------------------------------------------------

@@ -3,21 +3,21 @@ require("bootstrap")
 ------------------------------------------------------------
 -- 基础配置
 ------------------------------------------------------------
-require("config.options")
-require("config.keymaps")
-require("config.autocmds")
-
+require("config.options") --setting
+require("config.keymaps") --keymaps
+require("config.autocmds") --auto do commands
+require("config.commands") --custom commands
 require("config.filetypes") -- gdshader
 
 ------------------------------------------------------------
 -- Diagnostic
 ------------------------------------------------------------
-require("config.diagnostics")
+require("config.diagnostics") --custom warning look like
 
 ------------------------------------------------------------
 -- Plugins
 ------------------------------------------------------------
-require("lazy").setup("plugins")
+require("lazy").setup("plugins") --auto load plugins
 
 ------------------------------------------------------------
 -- 自定义 LSP
