@@ -19,6 +19,7 @@ local inference = require("gdshader_blink.semantic.inference")
 local semantic_types = require("gdshader_blink.semantic.types")
 local shader_type_names = require("gdshader_blink.data.shader_types")
 
+local hover = require("gdshader_blink.hover")
 ------------------------------------------------------------
 -- Static data
 ------------------------------------------------------------
@@ -313,17 +314,37 @@ local function make_builtin_variable_items(bufnr, cursor_line)
     local variables = context.get_builtin_variables(bufnr, cursor_line)
 
     for _, variable in ipairs(variables) do
+        local detail = variable.mode .. " " .. variable.type .. " · GDShader built-in"
+
+        local documentation = nil
+
+        if variable.detail then
+            documentation = {
+                kind = "markdown",
+                value = "```gdshader\n"
+                    .. variable.mode
+                    .. " "
+                    .. variable.type
+                    .. " "
+                    .. variable.name
+                    .. "\n```\n\n"
+                    .. variable.detail,
+            }
+        end
+
         table.insert(items, {
             label = variable.name,
+
             kind = kinds.Variable,
 
-            detail = variable.mode .. " " .. variable.type .. " · GDShader built-in",
+            detail = detail,
+
+            documentation = documentation,
         })
     end
 
     return items
 end
-
 local function make_context_items(ctx, cursor_line)
     local items = vim.deepcopy(general_items)
 
@@ -374,6 +395,7 @@ end
 
 function source.new()
     diagnostics.setup()
+    hover.setup()
 
     return setmetatable({}, {
         __index = source,
