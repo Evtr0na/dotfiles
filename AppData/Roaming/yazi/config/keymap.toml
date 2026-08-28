@@ -7,7 +7,6 @@
 
 
 
-
 [mgr]
 
 keymap = [
@@ -179,9 +178,13 @@ keymap = [
 	{ on = "<F1>", run = "help", desc = "Open help" },
 ]
 
+
+
 [tasks]
 
 keymap = [
+
+
 	{ on = "<Esc>", run = "close", desc = "Close task manager" },
 	{ on = "<C-[>", run = "close", desc = "Close task manager" },
 	{ on = "<C-c>", run = "close", desc = "Close task manager" },
@@ -250,8 +253,7 @@ keymap = [
 
 keymap = [
 
-
-
+	{ on = ["j", "j"], run = "escape", desc = "jj exit input" },
 	{ on = "<C-c>",   run = "close",          desc = "Cancel input" },
 	{ on = "<Enter>", run = "close --submit", desc = "Submit input" },
 	{ on = "<Esc>",   run = "escape",         desc = "Back to normal mode, or cancel input" },

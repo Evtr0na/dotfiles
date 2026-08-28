@@ -12,3 +12,5 @@
 [2m2026-08-26T04:37:29.918048Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Shell exec failed for 'zebar'. Make sure the program exists and is accessible from your shell. Error: 操作已被用户取消。 (0x800704C7)
 [2m2026-08-26T15:01:42.543429Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Shell exec failed for 'zebar'. Make sure the program exists and is accessible from your shell. Error: 操作已被用户取消。 (0x800704C7)
 [2m2026-08-27T05:19:11.246528Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Shell exec failed for 'zebar'. Make sure the program exists and is accessible from your shell. Error: 操作已被用户取消。 (0x800704C7)
+[2m2026-08-28T01:37:56.329573Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Shell exec failed for 'zebar'. Make sure the program exists and is accessible from your shell. Error: 操作已被用户取消。 (0x800704C7)
+[2m2026-08-28T01:38:00.758912Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Platform error: Another instance of the application is already running.
