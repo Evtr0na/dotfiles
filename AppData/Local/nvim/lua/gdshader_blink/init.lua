@@ -20,6 +20,10 @@ local semantic_types = require("gdshader_blink.semantic.types")
 local shader_type_names = require("gdshader_blink.data.shader_types")
 local hover = require("gdshader_blink.hover")
 local definition = require("gdshader_blink.definition")
+
+local references = require("gdshader_blink.references")
+
+local rename = require("gdshader_blink.rename")
 ------------------------------------------------------------
 -- Static data
 ------------------------------------------------------------
@@ -397,6 +401,8 @@ function source.new()
     diagnostics.setup()
     hover.setup()
     definition.setup()
+    references.setup()
+    rename.setup()
 
     return setmetatable({}, {
         __index = source,
