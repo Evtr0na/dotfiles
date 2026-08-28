@@ -1,9 +1,9 @@
 return {
     "xLeapProtocol/ring0-dark.nvim",
     lazy = false,
-    priority = 1000,
+    enable = false,
+    -- priority = 1000,
     config = function()
-        -- 正确的模块名是 ring0dark（不是 ring0-dark）
         local ok, ring0dark = pcall(require, "ring0dark")
         if not ok then
             vim.notify("ring0dark not loaded", vim.log.levels.ERROR)
