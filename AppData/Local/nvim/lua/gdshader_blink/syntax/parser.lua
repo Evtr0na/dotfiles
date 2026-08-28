@@ -345,6 +345,8 @@ function Parser:parse_qualified_declaration()
 
     node.name = name.value
 
+    node.name_token = name
+
     return self:parse_declaration_tail(node, name)
 end
 
@@ -428,6 +430,8 @@ function Parser:parse_parameter()
     self:advance()
 
     node.name = name.value
+
+    node.name_token = name
 
     local last = name
 
@@ -681,6 +685,8 @@ function Parser:parse_local_declaration()
     local name = self:advance()
 
     node.name = name.value
+
+    node.name_token = name
 
     --------------------------------------------------------
     -- initializer / array / ;
@@ -1250,6 +1256,8 @@ function Parser:parse_type_item()
     node.data_type = type_item.value
 
     node.name = name.value
+
+    node.name_token = name
 
     return self:parse_declaration_tail(node, name)
 end

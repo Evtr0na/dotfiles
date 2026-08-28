@@ -20,19 +20,26 @@ local AstKind = ast.Kind
 --     line 使用 1-based
 ------------------------------------------------------------
 
-local function to_context_line(line)
-    if line == nil then
-        return nil
+------------------------------------------------------------
+-- Name position
+------------------------------------------------------------
+
+local function get_name_position(node)
+    local name_token = node and node.name_token or nil
+
+    if name_token then
+        return to_context_line(name_token.line), name_token.column
     end
 
-    return line + 1
+    return to_context_line(node and node.start_line or nil), node and node.start_column or nil
 end
-
 ------------------------------------------------------------
 -- Parameter
 ------------------------------------------------------------
 
 local function convert_parameter(node)
+    local name_line, name_column = get_name_position(node)
+
     return {
         name = node.name,
 
@@ -46,9 +53,9 @@ local function convert_parameter(node)
 
         is_array = node.is_array == true,
 
-        ----------------------------------------------------
-        -- 保留源码位置，未来 definition / hover 会用
-        ----------------------------------------------------
+        name_line = name_line,
+
+        name_column = name_column,
 
         start_line = to_context_line(node.start_line),
 
@@ -57,9 +64,10 @@ local function convert_parameter(node)
         end_line = to_context_line(node.end_line),
 
         end_column = node.end_column,
+
+        ast = node,
     }
 end
-
 ------------------------------------------------------------
 -- Function
 ------------------------------------------------------------
@@ -67,11 +75,16 @@ end
 local function convert_function(node)
     local parameters = {}
 
+    local name_line, name_column = get_name_position(node)
     for _, parameter in ipairs(node.parameters or {}) do
         table.insert(parameters, convert_parameter(parameter))
     end
 
     return {
+        name_line = name_line,
+
+        name_column = name_column,
+
         name = node.name,
 
         return_type = node.return_type,
@@ -121,6 +134,8 @@ end
 ------------------------------------------------------------
 
 local function convert_declaration(node)
+    local name_line, name_column = get_name_position(node)
+
     return {
         name = node.name,
 
@@ -136,9 +151,9 @@ local function convert_declaration(node)
 
         has_hint = node.has_hint == true,
 
-        ----------------------------------------------------
-        -- 旧 context API 使用 1-based line。
-        ----------------------------------------------------
+        name_line = name_line,
+
+        name_column = name_column,
 
         line = to_context_line(node.start_line),
 
@@ -153,7 +168,6 @@ local function convert_declaration(node)
         ast = node,
     }
 end
-
 ------------------------------------------------------------
 -- Scope
 ------------------------------------------------------------
