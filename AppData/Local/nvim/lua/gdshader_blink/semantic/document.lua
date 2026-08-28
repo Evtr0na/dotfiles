@@ -19,7 +19,13 @@ local AstKind = ast.Kind
 -- context.lua 旧 API:
 --     line 使用 1-based
 ------------------------------------------------------------
+local function to_context_line(line)
+    if line == nil then
+        return nil
+    end
 
+    return line + 1
+end
 ------------------------------------------------------------
 -- Name position
 ------------------------------------------------------------

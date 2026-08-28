@@ -151,14 +151,10 @@ end
 ------------------------------------------------------------
 
 local function save_jump()
-    --------------------------------------------------------
-    -- 设置 previous-context mark，
-    -- 跳转之后可以使用 Ctrl-O 返回。
-    --------------------------------------------------------
-
-    pcall(vim.cmd, "normal! m'")
+    pcall(function()
+        vim.cmd("normal! m'")
+    end)
 end
-
 ------------------------------------------------------------
 -- Jump
 ------------------------------------------------------------
@@ -206,9 +202,13 @@ local function jump_to(target)
     -- Open folds and center.
     --------------------------------------------------------
 
-    pcall(vim.cmd, "normal! zv")
+    pcall(function()
+        vim.cmd("normal! zv")
+    end)
 
-    pcall(vim.cmd, "normal! zz")
+    pcall(function()
+        vim.cmd("normal! zz")
+    end)
 end
 
 ------------------------------------------------------------
