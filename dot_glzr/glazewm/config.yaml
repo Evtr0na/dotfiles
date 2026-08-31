@@ -133,6 +133,10 @@ workspaces:
   - name: '9'
   # TODO: 
 window_rules:
+  - commands:
+      - "set-floating --centered --width 1415px --height 1761px"
+    match:
+      - window_process: { equals: "wezterm-gui" }
 
   - commands: ["set-floating"]
     match:

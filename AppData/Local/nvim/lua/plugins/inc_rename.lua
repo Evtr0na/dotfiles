@@ -22,8 +22,16 @@ return {
 
         -- 设置快捷键绑定
         -- 配合 LSP 重命名快捷键（常见为 <leader>rn）
+        --
+        -- gdshader / gdshaderinc 没有 LSP server，
+        -- 交给 gdshader-nvim-support 的 :GDShaderRename 处理；
+        -- 其余文件类型仍用 inc-rename 的 LSP 重命名。
         vim.keymap.set("n", "<leader>rn", function()
+            if vim.bo.filetype == "gdshader" or vim.bo.filetype == "gdshaderinc" then
+                return ":GDShaderRename<CR>"
+            end
+
             return ":IncRename " .. vim.fn.expand("<cword>")
-        end, { expr = true, desc = "Incremental Rename (LSP)" })
+        end, { expr = true, desc = "Incremental Rename (LSP / GDShader)" })
     end,
 }

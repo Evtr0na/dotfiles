@@ -8,6 +8,8 @@ return {
 
         dependencies = {
             "rafamadriz/friendly-snippets",
+            -- Avante 的 blink.cmp source
+            -- "Kaiser-Yang/blink-cmp-avante",
         },
 
         ---@module "blink.cmp"
@@ -116,6 +118,7 @@ return {
                 --------------------------------------------------------
 
                 default = {
+                    -- "avante",
                     "lsp",
                     "path",
                     "snippets",
@@ -147,10 +150,16 @@ return {
                 --------------------------------------------------------
 
                 providers = {
+
+                    -- avante = {
+                    --     module = "blink-cmp-avante",
+                    --     name = "Avante",
+                    -- },
+
                     gdshader = {
                         name = "GDShader",
 
-                        module = "gdshader_blink",
+                        module = "gdshader_nvim",
 
                         -- 让自己的 GDShader 数据排序更靠前
                         score_offset = 100,

@@ -5,6 +5,14 @@
 
 local map = vim.keymap.set
 
+-- Ctrl+上下：调整窗口高度
+map("n", "<C-Down>", "<cmd>resize +2<cr>", { desc = "增大窗口高度", noremap = true, silent = true })
+map("n", "<C-Up>", "<cmd>resize -2<cr>", { desc = "减小窗口高度", noremap = true, silent = true })
+
+-- Ctrl+左右：调整窗口宽度
+map("n", "<C-Right>", "<cmd>vertical resize -2<cr>", { desc = "减小窗口宽度", noremap = true, silent = true })
+map("n", "<C-Left>", "<cmd>vertical resize +2<cr>", { desc = "增大窗口宽度", noremap = true, silent = true })
+
 -- 默认 y/d/p 和系统剪贴板共享 (+寄存器 = Ctrl+C剪贴板)
 vim.opt.clipboard = "unnamedplus"
 -- local del = vim.keymap.del
