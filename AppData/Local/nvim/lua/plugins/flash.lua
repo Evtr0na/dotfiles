@@ -92,19 +92,33 @@ return {
     event = "VeryLazy",
     opts = {
         prompt = {
-            prefix = { { " > ", "FlashPromptIcon" } }, -- 想要变成空直接改成 { { "", "FlashPromptIcon" } }
+            prefix = { { " > ", "FlashPromptIcon" } },
         },
+
+        -- 关键：把跳转 label 直接覆盖到匹配字符上
+        label = {
+            after = false,
+            before = { 0, 0 },
+            style = "overlay",
+        },
+
         highlight = {
-            backdrop = true, -- 启用 FlashBackdrop 高亮组
-            matches = false, --让第一个目标字母不高亮
+            backdrop = true,
+            matches = false,
+
+            groups = {
+                -- 当前最近目标也使用 FlashLabel，
+                -- 避免出现 FlashCurrent 的另一套颜色
+                current = "FlashLabel",
+            },
         },
+
         modes = {
             jump = {
                 search = { mode = "search" },
             },
         },
     },
-
     keys = {
         {
             "s",

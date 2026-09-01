@@ -11,6 +11,7 @@ return {
     event = { "BufWritePre" },
     cmd = { "ConformInfo" },
     opts = {
+
         formatters_by_ft = {
             -- 为 lua 文件指定格式化工具为 stylua
             lua = { "stylua" },
@@ -18,6 +19,7 @@ return {
             -- GDShader：由 gdshader-nvim-support 自动注册 formatter
             gdshader = { "gdshader" },
             gdshaderinc = { "gdshader" },
+            json = { "fixjson" },
         },
         -- 保存文件时自动格式化（如果不需要自动格式化，可直接删掉 format_on_save）
         format_on_save = {

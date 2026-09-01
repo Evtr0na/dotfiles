@@ -13,5 +13,18 @@ return {
                 swatch_pad_right = 1, -- 方块后 8 个空格
             },
         })
+
+        -- 保存 .gdshader 时自动格式化
+        local group = vim.api.nvim_create_augroup("GDShaderAutoFormat", {
+            clear = true,
+        })
+
+        vim.api.nvim_create_autocmd("BufWritePre", {
+            group = group,
+            pattern = "*.gdshader",
+            callback = function()
+                vim.cmd("GDShaderFormat")
+            end,
+        })
     end,
 }

@@ -62,5 +62,11 @@ config.colors = {
 	-- foreground = "#e4e4e4",
 	foreground = "#e4e4ef",
 }
+-- 修复乱码问题
+config.default_prog = {
+	"cmd.exe",
+	"/K",
+	"chcp 65001 >NUL",
+}
 
 return config

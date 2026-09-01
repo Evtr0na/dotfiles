@@ -14,3 +14,12 @@
 [2m2026-08-27T05:19:11.246528Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Shell exec failed for 'zebar'. Make sure the program exists and is accessible from your shell. Error: 操作已被用户取消。 (0x800704C7)
 [2m2026-08-28T01:37:56.329573Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Shell exec failed for 'zebar'. Make sure the program exists and is accessible from your shell. Error: 操作已被用户取消。 (0x800704C7)
 [2m2026-08-28T01:38:00.758912Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Platform error: Another instance of the application is already running.
+[2m2026-08-28T15:32:23.809496Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Shell exec failed for 'zebar'. Make sure the program exists and is accessible from your shell. Error: 操作已被用户取消。 (0x800704C7)
+[2m2026-08-29T05:07:57.051708Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Shell exec failed for 'zebar'. Make sure the program exists and is accessible from your shell. Error: 操作已被用户取消。 (0x800704C7)
+[2m2026-08-29T15:19:07.701682Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Shell exec failed for 'zebar'. Make sure the program exists and is accessible from your shell. Error: 操作已被用户取消。 (0x800704C7)
+[2m2026-08-30T05:21:54.238689Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Shell exec failed for 'zebar'. Make sure the program exists and is accessible from your shell. Error: 操作已被用户取消。 (0x800704C7)
+[2m2026-08-30T15:16:43.377073Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Shell exec failed for 'zebar'. Make sure the program exists and is accessible from your shell. Error: 操作已被用户取消。 (0x800704C7)
+[2m2026-08-30T16:02:34.327212Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Platform error: Another instance of the application is already running.
+[2m2026-08-30T16:02:47.157319Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Shell exec failed for 'zebar'. Make sure the program exists and is accessible from your shell. Error: 操作已被用户取消。 (0x800704C7)
+[2m2026-08-30T16:57:42.363011Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Platform error: Another instance of the application is already running.
+[2m2026-08-30T16:57:50.759523Z[0m [31mERROR[0m [2mglazewm[0m[2m:[0m Platform error: Another instance of the application is already running.

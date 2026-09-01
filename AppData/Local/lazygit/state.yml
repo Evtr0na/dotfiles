@@ -1,10 +1,15 @@
 lastupdatecheck: 0
 recentrepos:
     - C:\Users\SDD\.local\share\chezmoi
+    - D:\2zhuomian\app\source\gdshader-nvim-support
+    - D:\2zhuomian\Projects\Learning\lua\1
 startuppopupversion: 0
 didshowhunkstaginghint: true
 lastversion: 0.64.1
 customcommandshistory:
+    - qa
+    - git remote add origin https://github.com/Evtr0na/lua_learning.git
+    - git branch -M main
     - git rebasej --continue
     - q
 hidecommandlog: false

@@ -2,11 +2,11 @@ general:
   # Commands to run when the WM has started. This is useful for running a
   # script or launching another application.
   # Example: The below command launches Zebar.
-  startup_commands: ['shell-exec zebar']
+  startup_commands: ['shell-exec yasb']
 
   # Commands to run just before the WM is shutdown.
   # Example: The below command kills Zebar.
-  shutdown_commands: ['shell-exec taskkill /IM zebar.exe /F']
+  shutdown_commands: ['shell-exec taskkill /IM yasb.exe /F']
 
   # Commands to run after the WM config is reloaded.
   config_reload_commands: []
@@ -49,7 +49,7 @@ gaps:
 
   # Gap between windows and the screen edge.
   outer_gap:
-    top: '4px'
+    top: '0px'
     right: '4px'
     bottom: '4px'
     left: '4px'
@@ -133,10 +133,6 @@ workspaces:
   - name: '9'
   # TODO: 
 window_rules:
-  - commands:
-      - "set-floating --centered --width 1415px --height 1761px"
-    match:
-      - window_process: { equals: "wezterm-gui" }
 
   - commands: ["set-floating"]
     match:
@@ -151,8 +147,10 @@ window_rules:
   - commands: ['ignore']
     match:
       # Ignores any Zebar windows.
-      - window_process: { equals: 'zebar' }
+      - window_process: { equals: 'yasb' }
 
+      - window_title: { regex: '[Pp]icture.in.[Pp]icture' }
+        window_class: { regex: 'Chrome_WidgetWin_1|MozillaDialogClass' }
       # Ignores picture-in-picture windows for browsers.
       - window_title: { regex: '[Pp]icture.in.[Pp]icture' }
         window_class: { regex: 'Chrome_WidgetWin_1|MozillaDialogClass' }
