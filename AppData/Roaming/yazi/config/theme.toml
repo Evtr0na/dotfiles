@@ -1,0 +1,435 @@
+#:schema https://yazi-rs.github.io/schemas/theme.json
+
+# =========================================================
+# Yazi Monochrome
+# Background: #181818
+# Palette: black / white / gray only
+# =========================================================
+
+[app]
+overall = { bg = "#181818" }
+
+
+# ---------------------------------------------------------
+# File manager
+# ---------------------------------------------------------
+
+[mgr]
+cwd = { fg = "#b2b2b2", bold = true }
+
+find_keyword = { fg = "#181818", bg = "#E6E6E6", bold = true }
+find_position = { fg = "#808080", bg = "#181818" }
+
+symlink_target = { fg = "#888888", italic = true }
+
+marker_copied   = { fg = "#181818", bg = "#C8C8C8" }
+marker_cut      = { fg = "#181818", bg = "#989898" }
+marker_marked   = { fg = "#181818", bg = "#B8B8B8" }
+marker_selected = { fg = "#181818", bg = "#EEEEEE" }
+
+count_copied   = { fg = "#181818", bg = "#C8C8C8", bold = true }
+count_cut      = { fg = "#181818", bg = "#989898", bold = true }
+count_selected = { fg = "#181818", bg = "#EEEEEE", bold = true }
+
+border_symbol = "│"
+border_style  = { fg = "#404040" }
+
+
+# =========================================================
+# Hovered / Current file
+# 白底 + #181818 反色
+# =========================================================
+
+[indicator]
+
+# 左侧父目录中对应的当前目录
+parent = { fg = "#181818", bg = "#666666" }
+
+# 当前面板光标所在文件
+current = { fg = "#181818", bg = "#8c8c8c", bold = true }
+
+# Preview 中的位置提示
+preview = { fg = "#A0A0A0", underline = true }
+
+# 不要圆角，让高亮更加干净
+padding = { open = " ", close = " " }
+
+
+[tabs]
+active   = { fg = "#181818", bg = "#E6E6E6", bold = true }
+inactive = { fg = "#888888", bg = "#242424" }
+
+sep_inner = { open = "", close = "" }
+sep_outer = { open = "", close = "" }
+
+
+# ---------------------------------------------------------
+# Modes
+# ---------------------------------------------------------
+
+[mode]
+normal_main = { fg = "#181818", bg = "#E6E6E6", bold = true }
+normal_alt  = { fg = "#A0A0A0", bg = "#282828" }
+
+select_main = { fg = "#181818", bg = "#FFFFFF", bold = true }
+select_alt  = { fg = "#D0D0D0", bg = "#303030" }
+
+unset_main = { fg = "#181818", bg = "#A0A0A0", bold = true }
+unset_alt  = { fg = "#888888", bg = "#242424" }
+
+
+# ---------------------------------------------------------
+# Status bar
+# ---------------------------------------------------------
+
+[status]
+overall = { fg = "#A0A0A0", bg = "#181818" }
+
+sep_left  = { open = "", close = "" }
+sep_right = { open = "", close = "" }
+
+perm_type  = { fg = "#E6E6E6" }
+perm_read  = { fg = "#BEBEBE" }
+perm_write = { fg = "#929292" }
+perm_exec  = { fg = "#D6D6D6" }
+perm_sep   = { fg = "#505050" }
+
+progress_label  = { fg = "#E6E6E6", bold = true }
+progress_normal = { fg = "#E6E6E6", bg = "#383838" }
+progress_error  = { fg = "#FFFFFF", bg = "#505050", bold = true }
+
+
+# ---------------------------------------------------------
+# Which-key
+# ---------------------------------------------------------
+
+[which]
+cols = 2
+
+border = { fg = "#484848" }
+mask   = { bg = "#181818" }
+
+cand = { fg = "#F0F0F0", bold = true }
+rest = { fg = "#787878" }
+desc = { fg = "#B8B8B8" }
+
+separator       = "  "
+separator_style = { fg = "#484848" }
+
+
+# ---------------------------------------------------------
+# Confirmation dialog
+# ---------------------------------------------------------
+
+[confirm]
+border = { fg = "#505050" }
+title  = { fg = "#F0F0F0", bold = true }
+body   = { fg = "#B8B8B8" }
+list   = { fg = "#A0A0A0" }
+
+btn_yes = { fg = "#181818", bg = "#E6E6E6", bold = true }
+btn_no  = { fg = "#B0B0B0", bg = "#303030" }
+
+
+# ---------------------------------------------------------
+# Spot / metadata
+# ---------------------------------------------------------
+
+[spot]
+border = { fg = "#505050" }
+title  = { fg = "#F0F0F0", bold = true }
+
+tbl_col  = { fg = "#181818", bg = "#D8D8D8", bold = true }
+tbl_cell = { fg = "#E0E0E0", bg = "#303030" }
+
+
+# ---------------------------------------------------------
+# Notifications
+# 全部灰阶，不显示红/黄/蓝
+# ---------------------------------------------------------
+
+[notify]
+title_info  = { fg = "#D0D0D0", bold = true }
+title_warn  = { fg = "#EEEEEE", bold = true }
+title_error = { fg = "#FFFFFF", bold = true }
+
+
+# ---------------------------------------------------------
+# Pick menu
+# ---------------------------------------------------------
+
+[pick]
+border   = { fg = "#505050" }
+active   = { fg = "#181818", bg = "#E6E6E6", bold = true }
+inactive = { fg = "#989898" }
+
+
+# ---------------------------------------------------------
+# Input
+# ---------------------------------------------------------
+
+[input]
+border   = { fg = "#505050" }
+title    = { fg = "#E6E6E6", bold = true }
+value    = { fg = "#D0D0D0" }
+selected = { fg = "#181818", bg = "#E6E6E6" }
+
+
+# ---------------------------------------------------------
+# Completion menu
+# ---------------------------------------------------------
+
+[cmp]
+border   = { fg = "#505050" }
+active   = { fg = "#181818", bg = "#E6E6E6", bold = true }
+inactive = { fg = "#909090" }
+
+icon_file    = "F"
+icon_folder  = "D"
+icon_command = ">"
+
+
+# ---------------------------------------------------------
+# Tasks
+# ---------------------------------------------------------
+
+[tasks]
+border  = { fg = "#505050" }
+title   = { fg = "#E6E6E6", bold = true }
+hovered = { fg = "#181818", bg = "#D8D8D8" }
+
+
+# ---------------------------------------------------------
+# Help
+# ---------------------------------------------------------
+
+[help]
+border  = { fg = "#505050" }
+chord   = { fg = "#EEEEEE", bold = true }
+action  = { fg = "#A0A0A0" }
+hovered = { fg = "#181818", bg = "#D8D8D8", bold = true }
+
+
+# =========================================================
+# File text
+# =========================================================
+
+[filetype]
+
+rules = [
+    # Broken symlink
+    { url = "*", is = "orphan", fg = "#707070", crossed = true },
+
+    # Symlink
+    { url = "*", is = "link", fg = "#909090", italic = true },
+
+    # Executable
+    { url = "*", is = "exec", fg = "#D8D8D8" },
+
+    # Folder
+    { url = "*/", fg = "#E2E2E2", bold = true },
+
+    # Everything else
+    { url = "*", fg = "#B8B8B8" },
+]
+
+
+# =========================================================
+# Monochrome Nerd Font icons
+#
+# 所有图标只使用灰白色
+# 但不同文件类型依然拥有不同图标
+# =========================================================
+
+[icon]
+
+globs = []
+
+
+
+# ---------------------------------------------------------
+# Special directories
+# ---------------------------------------------------------
+
+dirs = [
+    { name = ".config",     text = "", fg = "#D8D8D8" },
+    { name = ".git",        text = "", fg = "#B8B8B8" },
+    { name = ".github",     text = "", fg = "#B8B8B8" },
+
+    { name = "Desktop",     text = "", fg = "#D8D8D8" },
+    { name = "Documents",   text = "", fg = "#D8D8D8" },
+    { name = "Downloads",   text = "", fg = "#D8D8D8" },
+    { name = "Music",       text = "", fg = "#D8D8D8" },
+    { name = "Pictures",    text = "", fg = "#D8D8D8" },
+    { name = "Videos",      text = "", fg = "#D8D8D8" },
+    { name = "Development", text = "", fg = "#D8D8D8" },
+]
+
+
+# ---------------------------------------------------------
+# Special files
+# ---------------------------------------------------------
+
+files = [
+    { name = ".gitignore",       text = "", fg = "#A8A8A8" },
+    { name = ".gitattributes",   text = "", fg = "#A8A8A8" },
+
+    { name = "package.json",     text = "", fg = "#C8C8C8" },
+    { name = "package-lock.json",text = "", fg = "#A8A8A8" },
+
+    { name = "Cargo.toml",       text = "", fg = "#C8C8C8" },
+    { name = "Cargo.lock",       text = "", fg = "#A8A8A8" },
+
+    { name = "README.md",        text = "󰂺", fg = "#D8D8D8" },
+    { name = "LICENSE",          text = "", fg = "#A8A8A8" },
+]
+
+
+# ---------------------------------------------------------
+# Extensions
+# ---------------------------------------------------------
+
+exts = [
+
+    # ---- Text / config -----------------------------------
+
+    { name = "txt",  text = "", fg = "#B8B8B8" },
+    { name = "md",   text = "", fg = "#C8C8C8" },
+
+    { name = "json", text = "", fg = "#B8B8B8" },
+    { name = "jsonc",text = "", fg = "#B8B8B8" },
+
+    { name = "toml", text = "", fg = "#B8B8B8" },
+    { name = "yaml", text = "", fg = "#B8B8B8" },
+    { name = "yml",  text = "", fg = "#B8B8B8" },
+
+    { name = "ini",  text = "", fg = "#A8A8A8" },
+    { name = "conf", text = "", fg = "#A8A8A8" },
+
+
+    # ---- Programming -------------------------------------
+
+    { name = "lua",  text = "", fg = "#C8C8C8" },
+
+    { name = "py",   text = "", fg = "#C8C8C8" },
+
+    { name = "js",   text = "", fg = "#C8C8C8" },
+    { name = "jsx",  text = "", fg = "#C8C8C8" },
+
+    { name = "ts",   text = "", fg = "#C8C8C8" },
+    { name = "tsx",  text = "", fg = "#C8C8C8" },
+
+    { name = "html", text = "", fg = "#C8C8C8" },
+    { name = "css",  text = "", fg = "#C8C8C8" },
+    { name = "scss", text = "", fg = "#C8C8C8" },
+
+    { name = "rs",   text = "", fg = "#C8C8C8" },
+
+    { name = "go",   text = "", fg = "#C8C8C8" },
+
+    { name = "c",    text = "", fg = "#C8C8C8" },
+    { name = "h",    text = "", fg = "#B8B8B8" },
+    { name = "cpp",  text = "", fg = "#C8C8C8" },
+    { name = "hpp",  text = "", fg = "#B8B8B8" },
+
+    { name = "java", text = "", fg = "#C8C8C8" },
+
+    { name = "cs",   text = "󰌛", fg = "#C8C8C8" },
+
+    { name = "php",  text = "", fg = "#C8C8C8" },
+
+    { name = "sh",   text = "", fg = "#C8C8C8" },
+    { name = "bash", text = "", fg = "#C8C8C8" },
+
+    { name = "ps1",  text = "󰨊", fg = "#C8C8C8" },
+
+    { name = "bat",  text = "", fg = "#B8B8B8" },
+    { name = "cmd",  text = "", fg = "#B8B8B8" },
+
+
+    # ---- Documents ---------------------------------------
+
+    { name = "pdf",  text = "", fg = "#D0D0D0" },
+
+    { name = "doc",  text = "󰈬", fg = "#C8C8C8" },
+    { name = "docx", text = "󰈬", fg = "#C8C8C8" },
+
+    { name = "xls",  text = "󰈛", fg = "#C8C8C8" },
+    { name = "xlsx", text = "󰈛", fg = "#C8C8C8" },
+
+    { name = "ppt",  text = "󰈧", fg = "#C8C8C8" },
+    { name = "pptx", text = "󰈧", fg = "#C8C8C8" },
+
+
+    # ---- Images ------------------------------------------
+
+    { name = "png",  text = "", fg = "#C8C8C8" },
+    { name = "jpg",  text = "", fg = "#C8C8C8" },
+    { name = "jpeg", text = "", fg = "#C8C8C8" },
+    { name = "gif",  text = "", fg = "#B8B8B8" },
+    { name = "webp", text = "", fg = "#B8B8B8" },
+    { name = "svg",  text = "󰜡", fg = "#C8C8C8" },
+    { name = "ico",  text = "", fg = "#A8A8A8" },
+
+
+    # ---- Video -------------------------------------------
+
+    { name = "mp4",  text = "", fg = "#C8C8C8" },
+    { name = "mkv",  text = "", fg = "#C8C8C8" },
+    { name = "avi",  text = "", fg = "#B8B8B8" },
+    { name = "mov",  text = "", fg = "#B8B8B8" },
+    { name = "webm", text = "", fg = "#B8B8B8" },
+
+
+    # ---- Audio -------------------------------------------
+
+    { name = "mp3",  text = "", fg = "#C8C8C8" },
+    { name = "flac", text = "", fg = "#C8C8C8" },
+    { name = "wav",  text = "", fg = "#B8B8B8" },
+    { name = "ogg",  text = "", fg = "#B8B8B8" },
+
+
+    # ---- Archives ----------------------------------------
+
+    { name = "zip",  text = "", fg = "#B8B8B8" },
+    { name = "rar",  text = "", fg = "#B8B8B8" },
+    { name = "7z",   text = "", fg = "#B8B8B8" },
+    { name = "tar",  text = "", fg = "#B8B8B8" },
+    { name = "gz",   text = "", fg = "#B8B8B8" },
+
+
+    # ---- Windows -----------------------------------------
+
+    { name = "exe",  text = "", fg = "#D0D0D0" },
+    { name = "msi",  text = "", fg = "#B8B8B8" },
+
+    { name = "dll",  text = "", fg = "#989898" },
+
+    { name = "lnk",  text = "", fg = "#989898" },
+]
+
+
+# ---------------------------------------------------------
+# Fallback
+# ---------------------------------------------------------
+
+conds = [
+
+    # Broken symlink
+    { if = "orphan", text = "", fg = "#707070" },
+
+    # Symlink
+    { if = "link", text = "", fg = "#989898" },
+
+    # 当前 hover 的目录用“打开文件夹”
+    { if = "dir & hovered", text = "", fg = "#E8E8E8" },
+
+    # 普通目录
+    { if = "dir", text = "", fg = "#D8D8D8" },
+
+    # Executable
+    { if = "exec", text = "", fg = "#D0D0D0" },
+
+    # 普通文件 fallback
+    { if = "!dir", text = "", fg = "#B8B8B8" },
+]
